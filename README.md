@@ -123,3 +123,6 @@ sudo fail2ban-client get sshd timeleft 192.168.1.10
 ```
 grep "Ban" /var/log/fail2ban.log
 ```
+```
+grep "invalid use" /var/log/auth.log
+```
