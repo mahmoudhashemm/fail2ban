@@ -112,3 +112,14 @@ sudo fail2ban-client status sshd
 جرّب 3 محاولات فاشلة على Odoo → يجب أن يتم حظر IPك ويظهر في status odoo.
 
 جرّب بعدها SSH محاولات فاشلة → يجب حظر أيضًا.
+
+
+```
+sudo fail2ban-client get sshd banip
+sudo fail2ban-client get sshd bantime
+sudo fail2ban-client get sshd timeleft 192.168.1.10
+```
+
+```
+grep "Ban" /var/log/fail2ban.log
+```
