@@ -116,6 +116,7 @@ sudo fail2ban-client status sshd
 
 ```
 sudo fail2ban-client get sshd banip
+sudo fail2ban-client get sshd banned
 sudo fail2ban-client get sshd bantime
 sudo fail2ban-client get sshd timeleft 192.168.1.10
 ```
