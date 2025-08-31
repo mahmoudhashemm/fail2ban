@@ -126,3 +126,37 @@ grep "Ban" /var/log/fail2ban.log
 ```
 grep "invalid use" /var/log/auth.log
 ```
+
+لو عاوز تعمل **unban (إلغاء الحظر)** لأي IP من خلال **Fail2ban**، تقدر تستخدم أحد الطريقتين:
+
+### 1. باستخدام **fail2ban-client**
+
+```bash
+sudo fail2ban-client set sshd unbanip 192.168.1.10
+```
+
+* `sshd` = اسم الـ jail اللي معمول عليه الحظر.
+* `192.168.1.10` = الـ IP اللي عاوز تفك حظره.
+
+---
+
+### 2. باستخدام **iptables / nftables** (لو Fail2ban بيستخدم iptables)
+
+ممكن تفك الحظر يدويًا:
+
+```bash
+sudo iptables -D f2b-sshd -s 192.168.1.10 -j REJECT
+```
+
+أو لو شغال بـ nftables:
+
+```bash
+sudo nft delete element inet filter f2b-sshd { 192.168.1.10 }
+```
+
+---
+
+✅ أنسب وأبسط طريقة:
+استخدم أمر **fail2ban-client** لأنه بيضمن إزالة الـ IP من قائمة الحظر الخاصة بـ jail بدون لعب يدوي في iptables.
+
+تحب أديك أمر يطلعلك كل الـ IPs المحظورة دلوقتي عشان تختار منهم تعملهم unban؟
