@@ -175,3 +175,16 @@ for jail in $(sudo fail2ban-client status | grep "Jail list:" | cut -d: -f2 | tr
     sudo fail2ban-client status $jail | grep "Banned IP list"
 done
 ```
+
+لو عاوز تبحث عن IP محدد في كل الـ jails مرة واحدة
+
+تقدر تستخدم loop بسيط:
+```
+
+for jail in $(sudo fail2ban-client status | grep "Jail list:" | cut -d: -f2 | tr ',' ' '); do
+    echo "Checking jail: $jail"
+    sudo fail2ban-client status $jail | grep "Banned IP list" | grep -q "192.168.1.10" && echo ">>> Found in $jail"
+done
+```
+
+ده هيعرضلك في أنهي jail الـ IP محظور. ✅
