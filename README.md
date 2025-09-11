@@ -161,3 +161,17 @@ sudo nft delete element inet filter f2b-sshd { 192.168.1.10 }
 استخدم أمر **fail2ban-client** لأنه بيضمن إزالة الـ IP من قائمة الحظر الخاصة بـ jail بدون لعب يدوي في iptables.
 
 تحب أديك أمر يطلعلك كل الـ IPs المحظورة دلوقتي عشان تختار منهم تعملهم unban؟
+
+
+
+
+كل الـ jails مع بعض (بـ loop)
+
+لو عاوز قائمة بكل الـ IPs المحظورة من كل الـ jails مرة واحدة:
+
+```
+for jail in $(sudo fail2ban-client status | grep "Jail list:" | cut -d: -f2 | tr ',' ' '); do
+    echo "=== $jail ==="
+    sudo fail2ban-client status $jail | grep "Banned IP list"
+done
+```
