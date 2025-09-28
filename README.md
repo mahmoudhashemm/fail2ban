@@ -90,6 +90,34 @@ logpath  = /var/log/auth.log
 backend  = auto
 EOF
 ```
+قبل التعديل
+
+Fail2Ban كان بيحط الـ IPs المحظورة في chain اسمها f2b-odoo.
+
+لكن الـ chain دي ماكانتش مربوطة بالـ INPUT chain → فالترافيك كان بيمر عادي وما بيتمنعش.
+
+النتيجة: تبص تلاقي الـ IP ظاهر إنه متحظر في fail2ban وiptables، لكن فعليًا بيفتح.
+
+```
+sudo iptables -I INPUT -j f2b-odoo
+
+```
+
+بعد ما تظبطها، اعمل حفظ للقواعد علشان ما تروحش بعد reboot:
+
+في Debian/Ubuntu:
+```
+sudo netfilter-persistent save
+```
+
+أو:
+```
+sudo iptables-save > /etc/iptables/rules.v4
+```
+
+
+
+
 
 
 هذا يتبع المبدأ: لا تغيّر jail.conf مباشرة، بل اصنع نسخة مخصصة فيه، تمامًا كما ورد في مقالة Cybrosys.
