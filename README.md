@@ -66,13 +66,17 @@ EOF
 5) ملف Jail جامع (jail.local)
 ```
 sudo tee /etc/fail2ban/jail.local >/dev/null <<'EOF'
-[DEFAULT]
+[[DEFAULT]
 bantime  = 1h
 findtime = 10m
-maxretry = 3
+maxretry = 1
+bantime.increment = true
+bantime.factor    = 1.5
+bantime.formula   = bantime * (1 << banCount)
 banaction = iptables-multiport
 chain     = DOCKER-USER
-ignoreip  = 127.0.0.1/8 ::1   # أضف IPك الوثوق هنا
+ignoreip  = 127.0.0.1/8 ::1   #      ^a IP ^c    ^d ^h   ^h ^b  ^g ^f
+
 
 [odoo]
 enabled  = true
